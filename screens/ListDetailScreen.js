@@ -180,8 +180,8 @@ function ListDetailScreen({ route, navigation }) {
           <Pressable style={styles.modalView} onPress={() => {}}>
             <Text style={styles.modalTitle}>Adicionar ao Carrinho</Text>
             <Text style={styles.modalItemName}>{selectedItem?.name}</Text>
-            <TextInput style={styles.modalInput} placeholder="Quantidade" value={itemQuantity} onChangeText={setItemQuantity} keyboardType="numeric" />
-            <TextInput style={styles.modalInput} placeholder="Preço (ex: 5,99)" value={itemPrice} onChangeText={setItemPrice} keyboardType="decimal-pad" />
+            <TextInput style={styles.modalInput} placeholder="Quantidade" placeholderTextColor={colors.textSecondary} value={itemQuantity} onChangeText={setItemQuantity} keyboardType="numeric" />
+            <TextInput style={styles.modalInput} placeholder="Preço (ex: 5,99)" placeholderTextColor={colors.textSecondary} value={itemPrice} onChangeText={setItemPrice} keyboardType="decimal-pad" />
             <View style={styles.modalButtonContainer}>
 
               <TouchableOpacity style={styles.cancelBtn} onPress={() => setIsModalVisible(false)}>
@@ -199,7 +199,7 @@ function ListDetailScreen({ route, navigation }) {
 
       {/* --- Seção para Adicionar Novos Itens --- */}
       <View style={styles.inputContainer}>
-        <TextInput style={styles.input} placeholder="Adicionar item..." value={newItemName} onChangeText={setNewItemName} />
+        <TextInput style={styles.input} placeholder="Adicionar item..." placeholderTextColor={colors.textSecondary} value={newItemName} onChangeText={setNewItemName} />
         <TouchableOpacity style={styles.addButton} onPress={handleAddItem}>
           <Feather name="plus" size={24} color="white" />
         </TouchableOpacity>
@@ -243,6 +243,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     marginRight: 10,
     fontSize: 16,
+    color: colors.text,
   },
   addButton: {
     width: 44,
@@ -299,7 +300,7 @@ const styles = StyleSheet.create({
   modalView: { width: '80%', margin: 20, backgroundColor: 'white', borderRadius: 20, padding: 35, alignItems: 'center', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 4, elevation: 5 },
   modalTitle: { fontSize: 20, fontWeight: 'bold', marginBottom: 15 },
   modalItemName: { fontSize: 18, marginBottom: 20 },
-  modalInput: { width: '100%', height: 40, borderColor: 'gray', borderWidth: 1, borderRadius: 5, paddingHorizontal: 10, marginBottom: 15 },
+  modalInput: { width: '100%', height: 40, borderColor: 'gray', borderWidth: 1, borderRadius: 5, paddingHorizontal: 10, marginBottom: 15, color: colors.text },
   modalButtonContainer: { flexDirection: 'row', justifyContent: 'space-around', width: '100%' },
   saveButton: {
     backgroundColor: '#4052fcff', // Cor de fundo azul (nossa cor primária)

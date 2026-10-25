@@ -241,6 +241,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     paddingHorizontal: 15,
     fontSize: 16,
+    color: colors.text,
     paddingTop: 10, // Empurra o texto digitado um pouco para baixo
   },
   // ✨ NOVO: Container para os botões

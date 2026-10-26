@@ -15,6 +15,7 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Checkbox from 'expo-checkbox';
 import { Feather } from '@expo/vector-icons'; // Importamos os ícones
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 // Paleta de cores centralizada
 const colors = {
@@ -28,6 +29,7 @@ const colors = {
 };
 
 function ListDetailScreen({ route, navigation }) {
+  const insets = useSafeAreaInsets();
   // --- ESTADO DO COMPONENTE ---
   const { listId, listName } = route.params;
   const ITEMS_STORAGE_KEY = `@shopping_list_items_${listId}`;
@@ -212,13 +214,13 @@ function ListDetailScreen({ route, navigation }) {
         renderItem={renderShopItem}
         renderSectionHeader={({ section: { title, data } }) => data.length > 0 && <Text style={styles.sectionHeader}>{title}</Text>}
         ListEmptyComponent={<Text style={styles.emptyText}>Sua lista está vazia!</Text>}
-        contentContainerStyle={{ paddingBottom: 100 }} // Espaço para o sumário não sobrepor o último item
+        contentContainerStyle={{ paddingBottom: cartSummary.totalItems > 0 ? 100 + insets.bottom : 24 + insets.bottom }} // Mantém os itens acessíveis acima do resumo e da navegação
         stickySectionHeadersEnabled={false}
       />
 
       {/* --- Sumário do Carrinho --- */}
       {cartSummary.totalItems > 0 && (
-        <View style={styles.summaryContainer}>
+        <View style={[styles.summaryContainer, { paddingBottom: Math.max(insets.bottom, 16) + 12 }]}>
           <Text style={styles.summaryText}>Itens no carrinho: {cartSummary.totalItems}</Text>
           <Text style={styles.summaryText}>Total: R$ {cartSummary.totalPrice}</Text>
         </View>
@@ -284,7 +286,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     padding: 20,
-    paddingBottom: 40, // Espaço extra para safe area
+    paddingBottom: 20, // Sobrescrito dinamicamente pelo inset inferior do dispositivo
     backgroundColor: colors.card,
     borderTopWidth: 1,
     borderColor: colors.separator,

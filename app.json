@@ -1,18 +1,18 @@
 {
   "expo": {
-    "name": "Minha Lista de Compras",   
+    "name": "Minha Lista de Compras",
     "slug": "minha-lista-de-compras",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
-    "newArchEnabled": true,            
+    "newArchEnabled": true,
     "splash": {
-      "image": "./assets/splash.png", 
+      "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [           
+    "assetBundlePatterns": [
       "**/*"
     ],
     "ios": {
@@ -25,10 +25,16 @@
         "backgroundColor": "#ffffff"
       },
       "package": "willcode.minhalistadecompras",
-      "edgeToEdgeEnabled": true      
+      "edgeToEdgeEnabled": true
     },
     "web": {
       "favicon": "./assets/icon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "be3f16be-cefb-48a0-9275-954389050c5a"
+      }
+    },
+    "owner": "willcode0"
   }
 }

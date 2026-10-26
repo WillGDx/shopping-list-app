@@ -15,6 +15,7 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Checkbox from 'expo-checkbox';
 import { Feather } from '@expo/vector-icons'; // Importamos os ícones
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 // Paleta de cores centralizada
 const colors = {
@@ -28,6 +29,7 @@ const colors = {
 };
 
 function ListDetailScreen({ route, navigation }) {
+  const insets = useSafeAreaInsets();
   // --- ESTADO DO COMPONENTE ---
   const { listId, listName } = route.params;
   const ITEMS_STORAGE_KEY = `@shopping_list_items_${listId}`;
@@ -180,8 +182,8 @@ function ListDetailScreen({ route, navigation }) {
           <Pressable style={styles.modalView} onPress={() => {}}>
             <Text style={styles.modalTitle}>Adicionar ao Carrinho</Text>
             <Text style={styles.modalItemName}>{selectedItem?.name}</Text>
-            <TextInput style={styles.modalInput} placeholder="Quantidade" value={itemQuantity} onChangeText={setItemQuantity} keyboardType="numeric" />
-            <TextInput style={styles.modalInput} placeholder="Preço (ex: 5,99)" value={itemPrice} onChangeText={setItemPrice} keyboardType="decimal-pad" />
+            <TextInput style={styles.modalInput} placeholder="Quantidade" placeholderTextColor={colors.textSecondary} value={itemQuantity} onChangeText={setItemQuantity} keyboardType="numeric" />
+            <TextInput style={styles.modalInput} placeholder="Preço (ex: 5,99)" placeholderTextColor={colors.textSecondary} value={itemPrice} onChangeText={setItemPrice} keyboardType="decimal-pad" />
             <View style={styles.modalButtonContainer}>
 
               <TouchableOpacity style={styles.cancelBtn} onPress={() => setIsModalVisible(false)}>
@@ -199,7 +201,7 @@ function ListDetailScreen({ route, navigation }) {
 
       {/* --- Seção para Adicionar Novos Itens --- */}
       <View style={styles.inputContainer}>
-        <TextInput style={styles.input} placeholder="Adicionar item..." value={newItemName} onChangeText={setNewItemName} />
+        <TextInput style={styles.input} placeholder="Adicionar item..." placeholderTextColor={colors.textSecondary} value={newItemName} onChangeText={setNewItemName} />
         <TouchableOpacity style={styles.addButton} onPress={handleAddItem}>
           <Feather name="plus" size={24} color="white" />
         </TouchableOpacity>
@@ -212,13 +214,13 @@ function ListDetailScreen({ route, navigation }) {
         renderItem={renderShopItem}
         renderSectionHeader={({ section: { title, data } }) => data.length > 0 && <Text style={styles.sectionHeader}>{title}</Text>}
         ListEmptyComponent={<Text style={styles.emptyText}>Sua lista está vazia!</Text>}
-        contentContainerStyle={{ paddingBottom: 100 }} // Espaço para o sumário não sobrepor o último item
+        contentContainerStyle={{ paddingBottom: cartSummary.totalItems > 0 ? 100 + insets.bottom : 24 + insets.bottom }} // Mantém os itens acessíveis acima do resumo e da navegação
         stickySectionHeadersEnabled={false}
       />
 
       {/* --- Sumário do Carrinho --- */}
       {cartSummary.totalItems > 0 && (
-        <View style={styles.summaryContainer}>
+        <View style={[styles.summaryContainer, { paddingBottom: Math.max(insets.bottom, 16) + 12 }]}>
           <Text style={styles.summaryText}>Itens no carrinho: {cartSummary.totalItems}</Text>
           <Text style={styles.summaryText}>Total: R$ {cartSummary.totalPrice}</Text>
         </View>
@@ -243,6 +245,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     marginRight: 10,
     fontSize: 16,
+    color: colors.text,
   },
   addButton: {
     width: 44,
@@ -283,7 +286,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     padding: 20,
-    paddingBottom: 40, // Espaço extra para safe area
+    paddingBottom: 20, // Sobrescrito dinamicamente pelo inset inferior do dispositivo
     backgroundColor: colors.card,
     borderTopWidth: 1,
     borderColor: colors.separator,
@@ -299,7 +302,7 @@ const styles = StyleSheet.create({
   modalView: { width: '80%', margin: 20, backgroundColor: 'white', borderRadius: 20, padding: 35, alignItems: 'center', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 4, elevation: 5 },
   modalTitle: { fontSize: 20, fontWeight: 'bold', marginBottom: 15 },
   modalItemName: { fontSize: 18, marginBottom: 20 },
-  modalInput: { width: '100%', height: 40, borderColor: 'gray', borderWidth: 1, borderRadius: 5, paddingHorizontal: 10, marginBottom: 15 },
+  modalInput: { width: '100%', height: 40, borderColor: 'gray', borderWidth: 1, borderRadius: 5, paddingHorizontal: 10, marginBottom: 15, color: colors.text },
   modalButtonContainer: { flexDirection: 'row', justifyContent: 'space-around', width: '100%' },
   saveButton: {
     backgroundColor: '#4052fcff', // Cor de fundo azul (nossa cor primária)
